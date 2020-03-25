@@ -1,10 +1,16 @@
+
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+
+import 'package:qrreaderapp/src/bloc/scans_bloc.dart';
 import 'package:qrreaderapp/src/models/scan_model.dart';
+
+import 'package:qrreaderapp/src/pages/direcciones_page.dart';
 import 'package:qrreaderapp/src/pages/mapas_page.dart';
-import 'package:qrreaderapp/src/providers/db_provider.dart';
-import 'direcciones_page.dart';
 
 import 'package:qrcode_reader/qrcode_reader.dart';
+import 'package:qrreaderapp/src/utils/utils.dart' as utils;
 
 class HomePage extends StatefulWidget {
   @override
@@ -13,6 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
+  final scansBloc = new ScansBloc();
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -22,8 +29,7 @@ class _HomePageState extends State<HomePage> {
         actions: <Widget>[
           IconButton( 
             icon: Icon(Icons.delete_forever),
-            onPressed: (){
-            },  
+            onPressed:  scansBloc.borrarScanTODOS,  
           )
         ],
       ),
@@ -45,6 +51,7 @@ class _HomePageState extends State<HomePage> {
 
     // String futureString = ''; 
     String futureString = 'https://fernando-herrera.com'; 
+    
     // try{
     //   futureString = await new QRCodeReader().scan();
     // }
@@ -55,8 +62,19 @@ class _HomePageState extends State<HomePage> {
     if( futureString !=null ){
 
       final scan = ScanModel( valor: futureString);
-      DBProvider.db.nuevoScan(scan);
-      
+      scansBloc.agregarScan(scan);
+
+      // final scan2 = ScanModel( valor: 'geo:40.70549672661435,-74.00319471796878');
+      // scansBloc.agregarScan(scan2);
+
+      if( Platform.isIOS ){
+        Future.delayed( Duration( milliseconds: 750 ),(){
+          utils.abrirScan(scan);
+        });
+      }
+      else{
+          utils.abrirScan(scan);
+      }
     }
 
   }
