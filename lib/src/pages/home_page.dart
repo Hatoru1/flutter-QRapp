@@ -38,13 +38,13 @@ class _HomePageState extends State<HomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.center_focus_strong),
-        onPressed: _scanQR,
+        onPressed:()=> _scanQR(context),
         backgroundColor: Theme.of(context).primaryColor,
       ),
     );
   }
 
-  _scanQR()async{
+  _scanQR(BuildContext context )async{
 
     // https://fernando-herrera.com
     // geo:40.70549672661435,-74.00319471796878
@@ -69,11 +69,11 @@ class _HomePageState extends State<HomePage> {
 
       if( Platform.isIOS ){
         Future.delayed( Duration( milliseconds: 750 ),(){
-          utils.abrirScan(scan);
+          utils.abrirScan(context, scan);
         });
       }
       else{
-          utils.abrirScan(scan);
+          utils.abrirScan(context ,scan);
       }
     }
 

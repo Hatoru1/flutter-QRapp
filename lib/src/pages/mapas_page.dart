@@ -36,7 +36,7 @@ class MapasPage extends StatelessWidget {
               title: Text(scans[i].valor),
               subtitle: Text( 'ID: ${ scans[i].id }'),
               trailing: Icon(Icons.keyboard_arrow_right, color: Colors.grey,),
-              onTap: ()=>abrirScan(scans[i]),
+              onTap: ()=>abrirScan(context ,scans[i]),
             ),
           ),
         );
