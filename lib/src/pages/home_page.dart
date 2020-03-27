@@ -50,22 +50,19 @@ class _HomePageState extends State<HomePage> {
     // geo:40.70549672661435,-74.00319471796878
 
     // String futureString = ''; 
-    String futureString = 'https://fernando-herrera.com'; 
+    String futureString ; 
     
-    // try{
-    //   futureString = await new QRCodeReader().scan();
-    // }
-    // catch(e){
-    //   futureString = e.toString();
-    // }
+    try{
+      futureString = await new QRCodeReader().scan();
+    }
+    catch(e){
+      futureString = e.toString();
+    }
 
     if( futureString !=null ){
 
       final scan = ScanModel( valor: futureString);
       scansBloc.agregarScan(scan);
-
-      // final scan2 = ScanModel( valor: 'geo:40.70549672661435,-74.00319471796878');
-      // scansBloc.agregarScan(scan2);
 
       if( Platform.isIOS ){
         Future.delayed( Duration( milliseconds: 750 ),(){
